@@ -1,11 +1,31 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, InputNumber, Switch, Select } from 'antd';
+import axios from 'axios';
 
 export default function Signup() {
     const [ prospect, setProspect ] = useState();
     // const [form] = Form.useForm();
     const onFinish = (values) => {
-        console.log("values", values)
+        fetch("http://localhost:5000/api/stripe/create-checkout-session", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }, 
+            body: JSON.stringify({
+                packages: [
+                    { id: 1, quantity: 1 }
+                ],
+            }),
+        })
+        .then(res => {
+            if(res.ok) return res.json()
+            return res.json().then(json => Promise.reject(json))
+        })
+        .then(({ url }) => {
+            window.location = url
+        }).catch(e => {
+            console.error(e.error)
+        })
         // Use to submit values when entered
         // will use an are you sure you want to submit? Value
     };

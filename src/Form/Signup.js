@@ -38,8 +38,8 @@ export default function Signup() {
                 <Form.Item label="Email" name="email" style={formStyle}>
                     <Input style={{ }}/>
                 </Form.Item>
-                <Form.Item label="Graduation Year" name="grad_year" style={formStyle}>
-                    <InputNumber style={{ }}/>
+                <Form.Item label="Graduation Year" name="grad_year" style={{ display: "flex", margin: '0'}}>
+                    <InputNumber style={{ width: '50%'}}/>
                 </Form.Item>
                 <Form.Item label="State" name="state" style={formStyle}>
                     <Select style={{ }}>
@@ -52,13 +52,13 @@ export default function Signup() {
                 </Form.Item>
                 <Form.Item label="Height and Weight"
                     style={{ 
-                        marginBottom: "0",
+                        margin: "0",
                     }}
                 >
                     <Form.Item name="ft"
                         style={{
                             display: 'inline-block',
-                            padding: "2%"
+                            paddingLeft: "2%"
                         }}
                     >
                         <Form.Item>
@@ -68,7 +68,7 @@ export default function Signup() {
                     <Form.Item name="in"
                         style={{
                             display: 'inline-block',
-                            padding: "2%"
+                            paddingLeft: "2%"
                         }}>
                         <Form.Item>
                             <InputNumber placeholder='IN'/>
@@ -77,7 +77,7 @@ export default function Signup() {
                     <Form.Item name="wt"
                         style={{
                         display: 'inline-block',
-                        padding: "2%"
+                        paddingLeft: "2%"
                     }}>
                         <Form.Item>
                             <InputNumber placeholder='WT'/>
@@ -101,7 +101,7 @@ export default function Signup() {
                         </Form.Item>
                     </div>
                 </div> */}
-                <Form.Item>
+                <Form.Item style={{ margin: "0%"}}>
                     <div style={{ width: '100%'}}>
                         <div style={{ display: 'flex', justifyContent: "space-between"}}>
                             <Form.Item label="Primary Position" name="primary_pos" style={{ width: '45%', fontSize: '2px'}}>
@@ -119,6 +119,9 @@ export default function Signup() {
                 <Form.Item label="Twitter" name="twitter" >
                     <Input style={{ }}/>
                 </Form.Item>
+                <Form.Item label="GPA" name="gpa" >
+                    <Input style={{ }}/>
+                </Form.Item>
                 <Form.Item >
                     <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                         <label style={{ marginRight: '5%'}}>Camps?</label>
@@ -126,9 +129,6 @@ export default function Signup() {
                             <Switch style={{ width: '20%'}}/>
                         </Form.Item>
                     </div>
-                </Form.Item>
-                <Form.Item label="GPA" name="gpa" >
-                    <Input style={{ }}/>
                 </Form.Item>
                 <Form.Item >
                     <Button type="primary" htmlType="submit">Submit</Button>

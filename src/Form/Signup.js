@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, InputNumber, Switch, Select, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import Confirmation from './Confirmation';
 export default function Signup(props) {
     const [ prospect, setProspect ] = useState();
+    const [ isVisible, setIsVisible ] = useState(0);
     // const [form] = Form.useForm();
     const onFinish = (values) => {
+        console.log("values: ", values)
         setProspect(values)
         if(values.package == 0){
-            console.log(prospect)
+            setIsVisible(1)
         } else {
             fetch("http://localhost:5000/api/stripe/create-checkout-session", {
                 method: "POST",
@@ -41,6 +44,7 @@ export default function Signup(props) {
     return (
         <div style={{ padding: '5%'}}>
             <h1>Next Big Prospect</h1>
+            {isVisible === 0 ? 
             <Form
                 labelCol={{
                     span: 4,
@@ -152,12 +156,13 @@ export default function Signup(props) {
                     <div style={{ display: "flex", justifyContent: 'space-evenly'}}>
                         <Button htmlType="cancel">Cancel</Button>
                         <Button type="primary" htmlType="submit">Continue</Button>
-                        {/* <Link to="/confirmation" state={prospect}><Button type="primary">Continue</Button></Link> */}
+                        {/* <Button type="primary">Continue</Button> */}
                     </div>
                 </Form.Item>
             </Form>
+            : 
+            <Confirmation prospect={prospect}/>
+            }
         </div>
-
-
     )
 }

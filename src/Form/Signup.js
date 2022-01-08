@@ -1,33 +1,38 @@
 import React, { useState } from 'react'
-import { Form, Input, Button, InputNumber, Switch, Select } from 'antd';
-import axios from 'axios';
-
-export default function Signup() {
+import { Form, Input, Button, InputNumber, Switch, Select, Radio } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import Confirmation from './Confirmation';
+export default function Signup(props) {
     const [ prospect, setProspect ] = useState();
     // const [form] = Form.useForm();
     const onFinish = (values) => {
-        fetch("http://localhost:5000/api/stripe/create-checkout-session", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            }, 
-            body: JSON.stringify({
-                packages: [
-                    { id: 1, quantity: 1 }
-                ],
-            }),
-        })
-        .then(res => {
-            if(res.ok) return res.json()
-            return res.json().then(json => Promise.reject(json))
-        })
-        .then(({ url }) => {
-            window.location = url
-        }).catch(e => {
-            console.error(e.error)
-        })
-        // Use to submit values when entered
-        // will use an are you sure you want to submit? Value
+        setProspect(values)
+        if(values.package == 0){
+            console.log(prospect)
+        } else {
+            fetch("http://localhost:5000/api/stripe/create-checkout-session", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }, 
+                body: JSON.stringify({
+                    packages: [
+                        { package: values.package, quantity: 1 }
+                    ],
+                }),
+            })
+            .then(res => {
+                if(res.ok) return res.json()
+                return res.json().then(json => Promise.reject(json))
+            })
+            .then(({ url }) => {
+                window.location = url
+            }).catch(e => {
+                console.error(e.error)
+            })
+
+        }
     };
     const formStyle = {
         margin: '0'
@@ -56,6 +61,9 @@ export default function Signup() {
                     <Input style={{ }}/>
                 </Form.Item>
                 <Form.Item label="Email" name="email" style={formStyle}>
+                    <Input style={{ }}/>
+                </Form.Item>
+                <Form.Item label="Password" name="password" style={formStyle}>
                     <Input style={{ }}/>
                 </Form.Item>
                 <Form.Item label="Graduation Year" name="grad_year" style={{ display: "flex", margin: '0'}}>
@@ -104,23 +112,6 @@ export default function Signup() {
                         </Form.Item>
                     </Form.Item>
                 </Form.Item>
-                {/* <div style={{ width: '100%'}}>
-                    <label style={{ display: 'flex', fontSize: '14px', height: '32px'}}>Height and Weight</label>
-                    <div style={{ display: 'flex', justifyContent: "space-between"}}>
-                        <Form.Item name="ft">
-                            <InputNumber style={{ width:"50%" }}/>
-                            <label style={{ marginLeft: '4%'}}>Ft</label>
-                        </Form.Item>
-                        <Form.Item name="in">
-                            <InputNumber style={{ width:"50%" }}/>
-                            <label style={{ marginLeft: '4%'}}>In</label>
-                        </Form.Item>
-                        <Form.Item name="wt">
-                            <InputNumber style={{ width:"60%" }}/>
-                            <label style={{ marginLeft: '4%'}}>Wt</label>
-                        </Form.Item>
-                    </div>
-                </div> */}
                 <Form.Item style={{ margin: "0%"}}>
                     <div style={{ width: '100%'}}>
                         <div style={{ display: 'flex', justifyContent: "space-between"}}>
@@ -150,8 +141,19 @@ export default function Signup() {
                         </Form.Item>
                     </div>
                 </Form.Item>
+                <Form.Item name="package" label="Type of Package">
+                    <Radio.Group>
+                        <Radio value={0}>Standard <InfoCircleOutlined /></Radio>
+                        <Radio value={1}>Bronze <InfoCircleOutlined /></Radio>
+                        <Radio value={2}>Silver <InfoCircleOutlined /></Radio>
+                    </Radio.Group>
+                </Form.Item>
                 <Form.Item >
-                    <Button type="primary" htmlType="submit">Submit</Button>
+                    <div style={{ display: "flex", justifyContent: 'space-evenly'}}>
+                        <Button htmlType="cancel">Cancel</Button>
+                        <Button type="primary" htmlType="submit">Continue</Button>
+                        {/* <Link to="/confirmation" state={prospect}><Button type="primary">Continue</Button></Link> */}
+                    </div>
                 </Form.Item>
             </Form>
         </div>

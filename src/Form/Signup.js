@@ -1,20 +1,20 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, InputNumber, Switch, Select, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { Link, useHistory } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import Confirmation from './Confirmation';
+
 export default function Signup(props) {
     const [ prospect, setProspect ] = useState();
-    const [ isVisible, setIsVisible ] = useState(0);
+    const [ isVisible, setIsVisible ] = useState(false);
+    const baseURL = "http://locathost:5000"
     // const [form] = Form.useForm();
     const onFinish = (values) => {
         console.log("values: ", values)
         setProspect(values)
         if(values.package == 0){
-            setIsVisible(1)
+            setIsVisible(true)
         } else {
-            fetch("http://localhost:5000/api/stripe/create-checkout-session", {
+            fetch(`${baseURL}/api/stripe/create-checkout-session`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export default function Signup(props) {
     return (
         <div style={{ padding: '5%'}}>
             <h1>Next Big Prospect</h1>
-            {isVisible === 0 ? 
+            {!isVisible ? 
             <Form
                 labelCol={{
                     span: 4,
@@ -52,42 +52,77 @@ export default function Signup(props) {
                 wrapperCol={{
                     span: 14,
                 }}
-                // style={{ width: "100%", border: '1px solid black'}}
                 layout="horizontal"
-                // form={form}
                 onFinish={onFinish}
             >
-                <Form.Item label="First Name" name="first_name" style={formStyle}>
-                {/* <Form.Item label="First Name" style={{ display: 'flex', justifyContent: "center", width: "80%", padding: "2%" }}> */}
+                <Form.Item 
+                    label="First Name" 
+                    name="first_name" 
+                    style={formStyle}
+                    rules={[{ required: true, message: 'Please provide first name' }]}
+                >
                     <Input style={{ border: "1px solid orange"}}/>
                 </Form.Item>
-                <Form.Item label="Last Name" name="last_name" style={formStyle}>
+                <Form.Item 
+                    label="Last Name" 
+                    name="last_name" 
+                    style={formStyle}
+                    rules={[{ required: true, message: 'Please provide last name' }]}
+                >
                     <Input style={{ }}/>
                 </Form.Item>
-                <Form.Item label="Email" name="email" style={formStyle}>
+                <Form.Item 
+                    label="Email" 
+                    name="email" 
+                    style={formStyle}
+                    rules={[{ required: true, message: 'Please provide email' }]}
+                >
                     <Input style={{ }}/>
                 </Form.Item>
-                <Form.Item label="Password" name="password" style={formStyle}>
+                <Form.Item 
+                    label="Password" 
+                    name="password" 
+                    style={formStyle}
+                    // rules={[{ required: true, message: 'You need a password' }]}
+                >
                     <Input style={{ }}/>
                 </Form.Item>
-                <Form.Item label="Graduation Year" name="grad_year" style={{ display: "flex", margin: '0'}}>
+                <Form.Item 
+                    label="Graduation Year" 
+                    name="grad_year" 
+                    style={{ display: "flex", margin: '0'}}
+                    rules={[{ required: true, message: 'Please provide grad year' }]}
+                >
                     <InputNumber style={{ width: '50%'}}/>
                 </Form.Item>
-                <Form.Item label="State" name="state" style={formStyle}>
+                <Form.Item 
+                    label="State" 
+                    name="state" 
+                    style={formStyle}
+                    rules={[{ required: true, message: 'Please provide state' }]}
+                >
                     <Select style={{ }}>
                         <Select.Option value="CT">CT</Select.Option>
                         <Select.Option value="GA">GA</Select.Option>
                     </Select>
                 </Form.Item>
-                <Form.Item label="High School" name="highschool" style={{ marginBottom: "2%"}}>
+                <Form.Item 
+                    label="High School" 
+                    name="highschool" 
+                    style={{ marginBottom: "2%"}}
+                    rules={[{ required: true, message: 'Please provide high school' }]}
+                >
                     <Input style={{ width: "80%" }}/>
                 </Form.Item>
-                <Form.Item label="Height and Weight"
+                <Form.Item 
+                    label="Height and Weight"
                     style={{ 
                         margin: "0",
                     }}
+                    rules={[{ required: true, message: 'Please provide height and weight' }]}
                 >
-                    <Form.Item name="ft"
+                    <Form.Item 
+                        name="ft"
                         style={{
                             display: 'inline-block',
                             paddingLeft: "2%"
@@ -97,7 +132,8 @@ export default function Signup(props) {
                             <InputNumber placeholder='FT'/>
                         </Form.Item>
                     </Form.Item>
-                    <Form.Item name="in"
+                    <Form.Item 
+                        name="in"
                         style={{
                             display: 'inline-block',
                             paddingLeft: "2%"
@@ -106,7 +142,8 @@ export default function Signup(props) {
                             <InputNumber placeholder='IN'/>
                         </Form.Item>
                     </Form.Item>
-                    <Form.Item name="wt"
+                    <Form.Item 
+                        name="wt"
                         style={{
                         display: 'inline-block',
                         paddingLeft: "2%"
@@ -116,7 +153,9 @@ export default function Signup(props) {
                         </Form.Item>
                     </Form.Item>
                 </Form.Item>
-                <Form.Item style={{ margin: "0%"}}>
+                <Form.Item 
+                    style={{ margin: "0%"}}
+                >
                     <div style={{ width: '100%'}}>
                         <div style={{ display: 'flex', justifyContent: "space-between"}}>
                             <Form.Item label="Primary Position" name="primary_pos" style={{ width: '45%', fontSize: '2px'}}>
@@ -128,10 +167,18 @@ export default function Signup(props) {
                         </div>
                     </div>
                 </Form.Item>
-                <Form.Item label="Film URL" name="hudl" >
+                <Form.Item 
+                    label="Film URL" 
+                    name="hudl" 
+                    rules={[{ required: true, message: 'Please provide your film URL' }]}
+                >
                     <Input style={{ }}/>
                 </Form.Item>
-                <Form.Item label="Twitter" name="twitter" >
+                <Form.Item 
+                    label="Twitter" 
+                    name="twitter" 
+                    rules={[{ required: true, message: 'Need your twitter for the shoutout' }]}
+                >
                     <Input style={{ }}/>
                 </Form.Item>
                 <Form.Item label="GPA" name="gpa" >
@@ -145,7 +192,11 @@ export default function Signup(props) {
                         </Form.Item>
                     </div>
                 </Form.Item>
-                <Form.Item name="package" label="Type of Package">
+                <Form.Item 
+                    name="package" 
+                    label="Type of Package"
+                    rules={[{ required: true, message: 'Please select desired package.' }]}
+                >
                     <Radio.Group>
                         <Radio value={0}>Standard <InfoCircleOutlined /></Radio>
                         <Radio value={1}>Bronze <InfoCircleOutlined /></Radio>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Form, Input, Button, InputNumber, Switch, Select, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import Confirmation from './Confirmation';
+import { Link } from 'react-router-dom';
 
 export default function Signup(props) {
     const [ prospect, setProspect ] = useState();
@@ -12,7 +13,7 @@ export default function Signup(props) {
         console.log("values: ", values)
         setProspect(values)
         if(values.package == 0){
-            setIsVisible(true)
+            setIsVisible(!isVisible)
         } else {
             fetch(`${baseURL}/api/stripe/create-checkout-session`, {
                 method: "POST",
@@ -59,7 +60,7 @@ export default function Signup(props) {
                     label="First Name" 
                     name="first_name" 
                     style={formStyle}
-                    rules={[{ required: true, message: 'Please provide first name' }]}
+                    // rules={[{ required: true, message: 'Please provide first name' }]}
                 >
                     <Input style={{ border: "1px solid orange"}}/>
                 </Form.Item>
@@ -67,7 +68,7 @@ export default function Signup(props) {
                     label="Last Name" 
                     name="last_name" 
                     style={formStyle}
-                    rules={[{ required: true, message: 'Please provide last name' }]}
+                    // rules={[{ required: true, message: 'Please provide last name' }]}
                 >
                     <Input style={{ }}/>
                 </Form.Item>
@@ -75,7 +76,7 @@ export default function Signup(props) {
                     label="Email" 
                     name="email" 
                     style={formStyle}
-                    rules={[{ required: true, message: 'Please provide email' }]}
+                    // rules={[{ required: true, message: 'Please provide email' }]}
                 >
                     <Input style={{ }}/>
                 </Form.Item>
@@ -91,7 +92,7 @@ export default function Signup(props) {
                     label="Graduation Year" 
                     name="grad_year" 
                     style={{ display: "flex", margin: '0'}}
-                    rules={[{ required: true, message: 'Please provide grad year' }]}
+                    // rules={[{ required: true, message: 'Please provide grad year' }]}
                 >
                     <InputNumber style={{ width: '50%'}}/>
                 </Form.Item>
@@ -99,7 +100,7 @@ export default function Signup(props) {
                     label="State" 
                     name="state" 
                     style={formStyle}
-                    rules={[{ required: true, message: 'Please provide state' }]}
+                    // rules={[{ required: true, message: 'Please provide state' }]}
                 >
                     <Select style={{ }}>
                         <Select.Option value="CT">CT</Select.Option>
@@ -110,7 +111,7 @@ export default function Signup(props) {
                     label="High School" 
                     name="highschool" 
                     style={{ marginBottom: "2%"}}
-                    rules={[{ required: true, message: 'Please provide high school' }]}
+                    // rules={[{ required: true, message: 'Please provide high school' }]}
                 >
                     <Input style={{ width: "80%" }}/>
                 </Form.Item>
@@ -119,7 +120,7 @@ export default function Signup(props) {
                     style={{ 
                         margin: "0",
                     }}
-                    rules={[{ required: true, message: 'Please provide height and weight' }]}
+                    // rules={[{ required: true, message: 'Please provide height and weight' }]}
                 >
                     <Form.Item 
                         name="ft"
@@ -170,14 +171,14 @@ export default function Signup(props) {
                 <Form.Item 
                     label="Film URL" 
                     name="hudl" 
-                    rules={[{ required: true, message: 'Please provide your film URL' }]}
+                    // rules={[{ required: true, message: 'Please provide your film URL' }]}
                 >
                     <Input style={{ }}/>
                 </Form.Item>
                 <Form.Item 
                     label="Twitter" 
                     name="twitter" 
-                    rules={[{ required: true, message: 'Need your twitter for the shoutout' }]}
+                    // rules={[{ required: true, message: 'Need your twitter for the shoutout' }]}
                 >
                     <Input style={{ }}/>
                 </Form.Item>
@@ -195,7 +196,7 @@ export default function Signup(props) {
                 <Form.Item 
                     name="package" 
                     label="Type of Package"
-                    rules={[{ required: true, message: 'Please select desired package.' }]}
+                    // rules={[{ required: true, message: 'Please select desired package.' }]}
                 >
                     <Radio.Group>
                         <Radio value={0}>Standard <InfoCircleOutlined /></Radio>

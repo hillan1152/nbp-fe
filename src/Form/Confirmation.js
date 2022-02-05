@@ -1,4 +1,4 @@
-import React, { useEffect }from 'react';
+import React, { useState, useEffect }from 'react';
 import axios from 'axios';
 import { Form, Input, Button, InputNumber, Switch, Select, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
@@ -6,7 +6,10 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 export default function Confirmation(props) {
     let { prospect } = props;
     const [form] = Form.useForm();
-    const baseURL = "http://localhost:5000"
+    const baseURL = "http://localhost:5000";
+    const [message, setMessage] = useState('');
+    const [success, setSuccess] = useState(false);    
+    
     let package_type = {
         0: "Standard",
         1: "Bronze",
@@ -16,12 +19,16 @@ export default function Confirmation(props) {
     const onFinish = (values) => {
         if(values.package == "Standard"){
             // If user wants the free package (standard)
-            console.log("values", values.package)
             axios.post(`${baseURL}/api/prospects`, values)
-                .then(res => console.log("res", res))
+                .then(res => {
+                    // SEND TO SUCCESS PAGE AND THANK YOU FOR SUBMISSION
+                    setMessage(res.data.message)
+                    setSuccess(true)
+                })
                 .catch(err => console.log("err", err.message))
             // Push directly to database
         } else {
+            if(values.package)
             fetch(`${baseURL}/api/stripe/create-checkout-session`, {
                 method: "POST",
                 headers: {
@@ -54,6 +61,10 @@ export default function Confirmation(props) {
     };
 
     return (
+        <div>
+            {success ? 
+            <div>{message}</div> 
+            :
         <div>
             <h3>Please Confirm If Information is Correct</h3>
             <Form
@@ -219,5 +230,7 @@ export default function Confirmation(props) {
                 </Form.Item>
             </Form>
         </div>
+        }
+    </div>
     )
 }

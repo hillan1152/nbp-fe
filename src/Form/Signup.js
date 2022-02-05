@@ -7,13 +7,14 @@ import { Link } from 'react-router-dom';
 export default function Signup(props) {
     const [ prospect, setProspect ] = useState();
     const [ isVisible, setIsVisible ] = useState(false);
-    const baseURL = "http://locathost:5000"
+    const baseURL = "http://localhost:5000"
     // const [form] = Form.useForm();
     const onFinish = (values) => {
         console.log("values: ", values)
         setProspect(values)
         if(values.package == 0){
             setIsVisible(!isVisible)
+            
         } else {
             fetch(`${baseURL}/api/stripe/create-checkout-session`, {
                 method: "POST",
@@ -207,8 +208,13 @@ export default function Signup(props) {
                 <Form.Item >
                     <div style={{ display: "flex", justifyContent: 'space-evenly'}}>
                         <Button htmlType="cancel">Cancel</Button>
-                        <Button type="primary" htmlType="submit">Continue</Button>
-                        {/* <Button type="primary">Continue</Button> */}
+                        {/* <Button type="primary" htmlType="submit">Continue</Button> */}
+                        <Link 
+                            className="btn btn-primary" 
+                            to={{
+                                pathname: "/confirmation",
+                            }}>
+                                Continue</Link>
                     </div>
                 </Form.Item>
             </Form>

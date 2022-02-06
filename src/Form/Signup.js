@@ -1,44 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form, Input, Button, InputNumber, Switch, Select, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import Confirmation from './Confirmation';
 import { Link } from 'react-router-dom';
+import { Context } from '../State/Store';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signup(props) {
     const [ prospect, setProspect ] = useState();
     const [ isVisible, setIsVisible ] = useState(false);
-    const baseURL = "http://localhost:5000"
-    // const [form] = Form.useForm();
+    const baseURL = "http://localhost:5000";
+    const [state, dispatch] = useContext(Context)
+    const navigate = useNavigate();
+    
     const onFinish = (values) => {
-        console.log("values: ", values)
         setProspect(values)
-        if(values.package == 0){
-            setIsVisible(!isVisible)
-            
-        } else {
-            fetch(`${baseURL}/api/stripe/create-checkout-session`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                }, 
-                body: JSON.stringify({
-                    packages: [
-                        { package: values.package, quantity: 1 }
-                    ],
-                }),
-            })
-            .then(res => {
-                if(res.ok) return res.json()
-                return res.json().then(json => Promise.reject(json))
-            })
-            .then(({ url }) => {
-                window.location = url
-            }).catch(e => {
-                console.error(e.error)
-            })
-
-        }
+        console.log("values", values)
+        dispatch({ type: 'SAVE_PROSPECT_INFO', payload: values})
+        navigate('/confirmation')
     };
+
     const formStyle = {
         margin: '0'
         // display: 'flex', padding: "2%", border: '1px solid red', alignItems: "flex-start", justifyContent: "space-around"
@@ -207,14 +188,8 @@ export default function Signup(props) {
                 </Form.Item>
                 <Form.Item >
                     <div style={{ display: "flex", justifyContent: 'space-evenly'}}>
-                        <Button htmlType="cancel">Cancel</Button>
-                        {/* <Button type="primary" htmlType="submit">Continue</Button> */}
-                        <Link 
-                            className="btn btn-primary" 
-                            to={{
-                                pathname: "/confirmation",
-                            }}>
-                                Continue</Link>
+                        {/* <Button onClick={cancel}>Cancel</Button> */}
+                        <Button type="primary" htmlType="submit">Continue</Button>
                     </div>
                 </Form.Item>
             </Form>

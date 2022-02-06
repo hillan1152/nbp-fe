@@ -1,14 +1,36 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect, useContext }from 'react';
 import axios from 'axios';
 import { Form, Input, Button, InputNumber, Switch, Select, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { Context } from '../State/Store';
+import { useNavigate } from 'react-router-dom';
+
+
 
 export default function Confirmation(props) {
-    let { prospect } = props;
+    // For passing props to each component
+    // let { prospect } = props;
     const [form] = Form.useForm();
+    const navigate = useNavigate();
     const baseURL = "http://localhost:5000";
     const [message, setMessage] = useState('');
-    const [success, setSuccess] = useState(false);    
+    const [success, setSuccess] = useState(false);  
+    // State Management with context  
+    const [state, dispatch] = useContext(Context);
+    let { prospect } = state;
+    console.log("prospect", state)
+    
+
+    const back = () => {
+        console.log("BACK VALUES BEFORE", form.getFieldsValue())
+        // const values = form.getFieldsValue();
+        // for(let i = 0; i < values)
+        // form.resetFields();
+
+        // form.setFieldsValue()
+        dispatch({ type: 'CLEAR_PROSPECT_INFO', payload: "" });
+        navigate('/')
+    }
     
     let package_type = {
         0: "Standard",
@@ -17,6 +39,7 @@ export default function Confirmation(props) {
     };
 
     const onFinish = (values) => {
+        dispatch({ type: 'CHANGE_NUMBER', payload: 0})
         if(values.package == "Standard"){
             // If user wants the free package (standard)
             axios.post(`${baseURL}/api/prospects`, values)
@@ -28,7 +51,6 @@ export default function Confirmation(props) {
                 .catch(err => console.log("err", err.message))
             // Push directly to database
         } else {
-            if(values.package)
             fetch(`${baseURL}/api/stripe/create-checkout-session`, {
                 method: "POST",
                 headers: {
@@ -42,6 +64,9 @@ export default function Confirmation(props) {
             })
             .then(res => {
                 if(res.ok) return res.json()
+                axios.post(`${baseURL}/api/prosects`, values)
+                    .then(res => console.log("posting new prospect", res))
+                    .catch(err => console.log("post error", err.message))
                 return res.json().then(json => Promise.reject(json))
             })
             .then(({ url }) => {
@@ -67,6 +92,7 @@ export default function Confirmation(props) {
             :
         <div>
             <h3>Please Confirm If Information is Correct</h3>
+            <h1>{state.number}</h1>
             <Form
                 form={form}
                 labelCol={{
@@ -222,7 +248,7 @@ export default function Confirmation(props) {
                 </Form.Item>
                 <Form.Item >
                     <div style={{ display: "flex", justifyContent: 'space-evenly'}}>
-                        <Button htmlType="cancel">Cancel</Button>
+                        <Button htmlType="button" onClick={back}>Back</Button>
                         <Button type="primary" htmlType="submit">
                             {prospect.package == 0 ? 'Submit' : "To Payment"}
                         </Button>

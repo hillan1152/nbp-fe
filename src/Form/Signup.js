@@ -7,19 +7,24 @@ import { Context } from '../State/Store';
 import { useNavigate } from 'react-router-dom';
 
 export default function Signup(props) {
-    const [ prospect, setProspect ] = useState();
-    const [ isVisible, setIsVisible ] = useState(false);
     const baseURL = "http://localhost:5000";
     const [state, dispatch] = useContext(Context)
     const navigate = useNavigate();
     
     const onFinish = (values) => {
-        setProspect(values)
-        console.log("values", values)
+        // dispatch({ type: 'CREATE_MESSAGE', payload: "TEST MESSAGE"})
+        values.ft = parseFloat(values.ft);
+        values.in = parseFloat(values.in);
+        values.wt = parseFloat(values.wt);
         dispatch({ type: 'SAVE_PROSPECT_INFO', payload: values})
         navigate('/confirmation')
     };
 
+
+    const back = () => {
+        navigate('/')
+    };
+    
     const formStyle = {
         margin: '0'
         // display: 'flex', padding: "2%", border: '1px solid red', alignItems: "flex-start", justifyContent: "space-around"
@@ -27,7 +32,6 @@ export default function Signup(props) {
     return (
         <div style={{ padding: '5%'}}>
             <h1>Next Big Prospect</h1>
-            {!isVisible ? 
             <Form
                 labelCol={{
                     span: 4,
@@ -188,14 +192,11 @@ export default function Signup(props) {
                 </Form.Item>
                 <Form.Item >
                     <div style={{ display: "flex", justifyContent: 'space-evenly'}}>
-                        {/* <Button onClick={cancel}>Cancel</Button> */}
+                        <Button onClick={back}>Cancel</Button>
                         <Button type="primary" htmlType="submit">Continue</Button>
                     </div>
                 </Form.Item>
             </Form>
-            : 
-            <Confirmation prospect={prospect}/>
-            }
         </div>
     )
 }

@@ -13,8 +13,6 @@ export default function Confirmation(props) {
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const baseURL = "http://localhost:5000";
-    const [message, setMessage] = useState('');
-    const [success, setSuccess] = useState(false);  
     // State Management with context  
     const [state, dispatch] = useContext(Context);
     let { prospect } = state;
@@ -22,15 +20,9 @@ export default function Confirmation(props) {
     
 
     const back = () => {
-        console.log("BACK VALUES BEFORE", form.getFieldsValue())
-        // const values = form.getFieldsValue();
-        // for(let i = 0; i < values)
-        // form.resetFields();
-
-        // form.setFieldsValue()
         dispatch({ type: 'CLEAR_PROSPECT_INFO', payload: "" });
-        navigate('/')
-    }
+        navigate('/signup')
+    };
     
     let package_type = {
         0: "Standard",
@@ -39,18 +31,20 @@ export default function Confirmation(props) {
     };
 
     const onFinish = (values) => {
-        dispatch({ type: 'CHANGE_NUMBER', payload: 0})
         if(values.package == "Standard"){
             // If user wants the free package (standard)
-            axios.post(`${baseURL}/api/prospects`, values)
-                .then(res => {
-                    // SEND TO SUCCESS PAGE AND THANK YOU FOR SUBMISSION
-                    setMessage(res.data.message)
-                    setSuccess(true)
-                })
-                .catch(err => console.log("err", err.message))
+            dispatch({ type: 'CREATE_MESSAGE', payload: "TEST MESSAGE"})
+            // axios.post(`${baseURL}/api/prospects`, values)
+            //     .then(res => {
+            //         // SEND TO SUCCESS PAGE AND THANK YOU FOR SUBMISSION
+            //         dispatch({ type: 'CREATE_MESSAGE', payload: res.data.message})
+            //     })
+            //     .catch(err => console.log("err", err.message))
             // Push directly to database
         } else {
+            // Convert name of package to its number value
+            const name_to_number = Object.keys(package_type).find(key => package_type[key] === values.package);
+            values.package = parseFloat(name_to_number);
             fetch(`${baseURL}/api/stripe/create-checkout-session`, {
                 method: "POST",
                 headers: {
@@ -63,10 +57,12 @@ export default function Confirmation(props) {
                 }),
             })
             .then(res => {
-                if(res.ok) return res.json()
-                axios.post(`${baseURL}/api/prosects`, values)
-                    .then(res => console.log("posting new prospect", res))
+                axios.post(`${baseURL}/api/prospects`, values)
+                    .then(res => {
+                        dispatch({ type: 'CREATE_MESSAGE', payload: res.data.message})
+                    })
                     .catch(err => console.log("post error", err.message))
+                if(res.ok) return res.json()
                 return res.json().then(json => Promise.reject(json))
             })
             .then(({ url }) => {
@@ -79,20 +75,11 @@ export default function Confirmation(props) {
             // Else Go to payment page for processing
             // 1. Payment is approved
             // 2. add to data base
-
-
-
-
     };
 
     return (
         <div>
-            {success ? 
-            <div>{message}</div> 
-            :
-        <div>
             <h3>Please Confirm If Information is Correct</h3>
-            <h1>{state.number}</h1>
             <Form
                 form={form}
                 labelCol={{
@@ -109,9 +96,9 @@ export default function Confirmation(props) {
                     grad_year: prospect.grad_year,
                     state: prospect.state,
                     highschool: prospect.highschool,
-                    ft: prospect.ft,
-                    in: prospect.in,
-                    wt: prospect.wt,
+                    ft: parseFloat(prospect.ft),
+                    in: parseFloat(prospect.in),
+                    wt: parseFloat(prospect.wt),
                     primary_pos: prospect.primary_pos,
                     secondary_pos: prospect.secondary_pos,
                     hudl: prospect.hudl,
@@ -172,33 +159,34 @@ export default function Confirmation(props) {
                     }}
                 >
                     <Form.Item 
-                        name="ft"
                         style={{
                             display: 'inline-block',
                             paddingLeft: "2%"
                         }}
                     >
-                        <Form.Item>
+                        <Form.Item
+                            name="ft"
+                        >
                             <InputNumber/>
                         </Form.Item>
                     </Form.Item>
                     <Form.Item 
-                        name="in"
                         style={{
                             display: 'inline-block',
                             paddingLeft: "2%"
                         }}>
-                        <Form.Item>
+                        <Form.Item
+                            name="in"
+                        >
                             <InputNumber/>
                         </Form.Item>
                     </Form.Item>
                     <Form.Item 
-                        name="wt"
                         style={{
                         display: 'inline-block',
                         paddingLeft: "2%"
                     }}>
-                        <Form.Item>
+                        <Form.Item name="wt">
                             <InputNumber/>
                         </Form.Item>
                     </Form.Item>
@@ -256,7 +244,5 @@ export default function Confirmation(props) {
                 </Form.Item>
             </Form>
         </div>
-        }
-    </div>
     )
 }

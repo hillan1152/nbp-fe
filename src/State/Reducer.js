@@ -9,6 +9,18 @@ const Reducer = (state, action) => {
             return {
                 ...state,
                 prospect: action.payload
+            };
+        case 'CREATE_MESSAGE':
+            return {
+                ...state,
+                message: action.payload, 
+                isVisible: true
+            }
+        case 'CLEAR_MESSAGE':
+            return {
+                ...state,
+                message: '',
+                isVisible: false
             }
             default: return state;
     }

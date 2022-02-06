@@ -2,7 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import Reducer from './Reducer';
 
 const initialState = {
-    logedIn: false,
+    loggedIn: false,
     prospect: {
       first_name: '',
       last_name: '',
@@ -22,6 +22,7 @@ const initialState = {
       package: '',
     },
     message: '',
+    isVisible: false,
 };
 
 

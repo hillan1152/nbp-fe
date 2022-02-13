@@ -31,7 +31,7 @@ export default function Signup(props) {
     };
 
     return (
-        <div style={{ padding: '5%'}}>
+        <div className="sign-up" style={{ padding: '5%'}}>
             <h1>Next Big Prospect</h1>
             <Form
                 labelCol={{

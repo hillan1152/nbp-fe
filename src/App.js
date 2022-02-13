@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import './App.css';
+import './Styles/App.scss';
 import {
   BrowserRouter as Router,
   Route,

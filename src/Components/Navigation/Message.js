@@ -28,7 +28,7 @@ export default function Message(props) {
             <Modal 
                 visible={state.isVisible} 
                 onOk={handleOK} 
-                closeIcon={<CheckCircleTwoTone style={{ marginTop: '2%',fontSize: '2em'}} twoToneColor="#52c41a" />}>
+                closeIcon={<CheckCircleTwoTone className="icon-message" style={{ marginTop: '2%',fontSize: '2em'}} twoToneColor="#52c41a" />}>
                 <h2>Prospect Confirmed</h2>
                 <p>{state.message}</p>
             </Modal>

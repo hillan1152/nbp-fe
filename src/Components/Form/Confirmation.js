@@ -8,15 +8,12 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function Confirmation(props) {
-    // For passing props to each component
-    // let { prospect } = props;
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const baseURL = "http://localhost:5000";
-    // State Management with context  
+    // State Management --- Context
     const [state, dispatch] = useContext(Context);
     let { prospect } = state;
-    console.log("prospect", state)
     
 
     const back = () => {
@@ -33,13 +30,14 @@ export default function Confirmation(props) {
     const onFinish = (values) => {
         if(values.package == "Standard"){
             // If user wants the free package (standard)
-            dispatch({ type: 'CREATE_MESSAGE', payload: "TEST MESSAGE"})
-            // axios.post(`${baseURL}/api/prospects`, values)
-            //     .then(res => {
-            //         // SEND TO SUCCESS PAGE AND THANK YOU FOR SUBMISSION
-            //         dispatch({ type: 'CREATE_MESSAGE', payload: res.data.message})
-            //     })
-            //     .catch(err => console.log("err", err.message))
+            axios.post(`${baseURL}/api/prospects`, values)
+                .then(res => {
+                // SEND TO SUCCESS PAGE AND THANK YOU FOR SUBMISSION
+                    dispatch({ type: 'CREATE_MESSAGE', payload: res.data.message })
+                    // dispatch({ type: 'CREATE_MESSAGE', payload: `${values.first_name} ${values.last_name} has been successfully added to our database. A confirmation email has been sent to the email provided!`})
+                    navigate('/')
+                })
+                .catch(err => console.log("err", err.message))
             // Push directly to database
         } else {
             // Convert name of package to its number value
@@ -87,6 +85,9 @@ export default function Confirmation(props) {
                 }}
                 wrapperCol={{
                     span: 14,
+                }}
+                style={{
+                    padding: "2%",
                 }}
                 layout="horizontal"
                 initialValues={{
@@ -215,7 +216,7 @@ export default function Confirmation(props) {
                     label="Twitter" 
                     name="twitter" 
                 >
-                    <Input/>
+                    <Input addonBefore={"@"}/>
                 </Form.Item>
                 <Form.Item label="GPA" name="gpa" >
                     <Input/>

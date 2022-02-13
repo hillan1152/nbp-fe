@@ -12,10 +12,11 @@ export default function Signup(props) {
     const navigate = useNavigate();
     
     const onFinish = (values) => {
-        // dispatch({ type: 'CREATE_MESSAGE', payload: "TEST MESSAGE"})
-        values.ft = parseFloat(values.ft);
-        values.in = parseFloat(values.in);
-        values.wt = parseFloat(values.wt);
+        if(values.ft !== undefined && values.in !== undefined && values.wt !== undefined){
+            values.ft = parseFloat(values.ft);
+            values.in = parseFloat(values.in);
+            values.wt = parseFloat(values.wt);
+        }
         dispatch({ type: 'SAVE_PROSPECT_INFO', payload: values})
         navigate('/confirmation')
     };
@@ -27,8 +28,8 @@ export default function Signup(props) {
     
     const formStyle = {
         margin: '0'
-        // display: 'flex', padding: "2%", border: '1px solid red', alignItems: "flex-start", justifyContent: "space-around"
     };
+
     return (
         <div style={{ padding: '5%'}}>
             <h1>Next Big Prospect</h1>
@@ -166,7 +167,7 @@ export default function Signup(props) {
                     name="twitter" 
                     // rules={[{ required: true, message: 'Need your twitter for the shoutout' }]}
                 >
-                    <Input style={{ }}/>
+                    <Input addonBefore={"@"}/>
                 </Form.Item>
                 <Form.Item label="GPA" name="gpa" >
                     <Input style={{ }}/>

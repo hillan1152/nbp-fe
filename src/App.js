@@ -7,11 +7,11 @@ import {
   Switch,
   withRouter
 } from "react-router-dom";
-import Signup from './Form/Signup.js';
-import Confirmation from './Form/Confirmation';
-import Store, { Context } from './State/Store';
-import Message from './Navigation/Message.js'
-import Welcome from './Welcome/Welcome.js'
+import Signup from './Components/Form/Signup.js';
+import Confirmation from './Components/Form/Confirmation';
+import Store, { Context } from './Components/State/Store';
+import Message from './Components/Navigation/Message.js'
+import Welcome from './Components/Welcome/Welcome.js'
 
 function App(props) {
 

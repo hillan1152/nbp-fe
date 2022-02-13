@@ -24,12 +24,15 @@ export default function Message(props) {
         //     <h1>{state.message}</h1>
         // </Modal>;
         <Space wrap>
+            {state.message.includes("successfully") ? 
             <Modal 
                 visible={state.isVisible} 
                 onOk={handleOK} 
                 closeIcon={<CheckCircleTwoTone style={{ marginTop: '2%',fontSize: '2em'}} twoToneColor="#52c41a" />}>
-                <h1>{state.message}</h1>
-            </Modal>;
+                <h2>Prospect Confirmed</h2>
+                <p>{state.message}</p>
+            </Modal>
+            : ''}
         </Space>
     )
 }

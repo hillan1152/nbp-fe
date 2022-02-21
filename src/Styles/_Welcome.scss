@@ -10,16 +10,27 @@
         padding-top: 3%;
     }
 }
+.card-title {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    border-bottom: 1.2px solid gray;
+    background: lightGray; 
+    width: 100%;
+}
+.package {
+    @include mobile(){
+        width: 80%;
+        font-size: 1rem;
+        background-color: lightgray;
+        border: 2px inset black;
+        margin: 2%;
+
+    }
+}
 
 .package-align {
     display: flex;
     flex-flow: column wrap;
     align-content: center;
-}
-
-.single-package {
-    // border: 1px solid black;
-    width: 70%;
-    padding: 3%;
-    margin: 2%;
 }

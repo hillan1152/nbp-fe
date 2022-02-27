@@ -13,7 +13,10 @@ import Store, { Context } from './Components/State/Store';
 import Message from './Components/Navigation/Message.js'
 import Welcome from './Components/Welcome/Welcome.js'
 import Navigation from './Components/Navigation/Navigation';
+import Footer from './Components/Navigation/Footer';
+
 function App(props) {
+
 
   return (
     <Store>
@@ -28,6 +31,7 @@ function App(props) {
           </Routes>
         </div>
       </Router>
+      <Footer/>
     </Store>
   );
 }

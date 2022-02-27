@@ -1,0 +1,21 @@
+@import './Variables';
+
+.footer-container {
+    border: 4px solid black;
+    height: 20vh; 
+    display: flex; 
+    flex-direction: column; 
+    padding: 2%; 
+    align-items: center;
+    font-size: 2rem;
+    color: $nav-font-color;
+    background-color: $nav-color;
+    h3 {
+        color: $nav-font-color
+    }
+    .footer-icons {
+        width: 100%; 
+        display: flex;
+        justify-content: space-around;
+    }
+}

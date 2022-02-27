@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, List, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
 // import "../../Styles/Welcome.css";
-import Connor from '../../Images/conner.jpg';
+// import Connor from '../../Images/conner.jpg';
 import NBPBackground from '../../Images/NBPBackground.jpeg';
 
 export default function Welcome() {
@@ -10,10 +10,9 @@ export default function Welcome() {
     return (
         <div className='welcome-div'>
             <img src={NBPBackground} alt="NBP Background Logo" className='nbp-background'/>
-            <h4>Click to Start Ranking</h4>
-            <Button type="primary" onClick={() => navigate('/signup')}>Sign Up</Button>
             <section className="packages">
-                <h2 style={{ fontSize: '2rem', marginTop: '2%'}}>Evaluation Packages</h2>
+                <h2 style={{ fontSize: '2rem', marginTop: '1.5%'}}>Evaluation Packages</h2>
+                <Button style={{ marginBottom: '1.5%' }} type="primary" onClick={() => navigate('/signup')}>Sign Up</Button>
                 <section className='package-align'>
                     <Card className='package' bordered>
                         <List.Item className='card-title'>

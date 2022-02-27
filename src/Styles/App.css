@@ -1,3 +1,8 @@
+.sign-up {
+  position: relative;
+  padding: 5%;
+}
+
 .sign-up h1 {
   font-size: 2rem;
 }
@@ -30,7 +35,6 @@
   border-bottom: 1.2px solid gray;
   background: lightGray;
   width: 100%;
-  color: black;
 }
 
 .ant-typography {

@@ -22,13 +22,13 @@ export default function Confirmation(props) {
     };
     
     let package_type = {
-        0: "Standard",
-        1: "Bronze",
-        2: "Silver"
+        0: "Free",
+        1: "Standard",
+        2: "Advanced"
     };
 
     const onFinish = (values) => {
-        if(values.package == "Standard"){
+        if(values.package == "Free"){
             // If user wants the free package (standard)
             axios.post(`${baseURL}/api/prospects`, values)
                 .then(res => {

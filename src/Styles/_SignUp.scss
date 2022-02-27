@@ -1,5 +1,38 @@
+@import './Mixins';
+
 .sign-up {
+    // background-color: rgba(255, 255, 255, 0.4);;
+    // background-image: url('../Images/travis.jpg');
+    // background-repeat: none;
+    // background-position: center;
+    // background-size: cover;
+    // padding: 5%;
+    // opacity: .4;
+    position: relative;
+    padding: 5%;
+
     h1 {
         font-size: 2rem;
     }
+}
+
+// .sign-up:before {
+//     @include mobile(){
+//         content: ' ';
+//         display: block;
+//         position: absolute;
+//         left: 0;
+//         top: 0;
+//         width: 100%;
+//         height: 100%;
+//         opacity: 0.2;
+//         background-image: url('../Images/travis.jpg');
+//         background-repeat: no-repeat;
+//         background-position: 60% 0;
+//         background-size: cover;
+//     }
+// }
+
+.sign-up-content {
+    // position: relative;
 }

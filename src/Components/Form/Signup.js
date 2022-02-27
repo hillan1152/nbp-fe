@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Form, Input, Button, InputNumber, Switch, Select, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import Confirmation from './Confirmation';
@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { Context } from '../State/Store';
 import { useNavigate } from 'react-router-dom';
 
+const { Option } = Select;
 export default function Signup(props) {
     const baseURL = "http://localhost:5000";
     const [state, dispatch] = useContext(Context)
@@ -17,21 +18,41 @@ export default function Signup(props) {
             values.in = parseFloat(values.in);
             values.wt = parseFloat(values.wt);
         }
+        // values.state = states[values.state]
         dispatch({ type: 'SAVE_PROSPECT_INFO', payload: values})
         navigate('/confirmation')
     };
 
+    const states = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming']
+
+    // const children = [];
+    // useEffect(() => {
+    //     for(let i = 0; i < states.length; i++){
+    //         let area = states[i];
+    //         children.push(<Option key={i} >{area}</Option>)
+    //     }
+    // }, [])
+
+    function onChange(value) {
+        console.log(`selected ${value}`);
+      }
+      
+      function onSearch(val) {
+        console.log('search:', val);
+      }
 
     const back = () => {
         navigate('/')
     };
     
     const formStyle = {
-        margin: '0'
+        margin: '0',
+        fontWeight: 'bold'
     };
 
     return (
-        <div className="sign-up" style={{ padding: '5%'}}>
+        <div className="sign-up">
+            <div className="sign-up-content">
             <h1>Next Big Prospect</h1>
             <Form
                 labelCol={{
@@ -42,6 +63,7 @@ export default function Signup(props) {
                 }}
                 layout="horizontal"
                 onFinish={onFinish}
+                
             >
                 <Form.Item 
                     label="First Name" 
@@ -78,10 +100,10 @@ export default function Signup(props) {
                 <Form.Item 
                     label="Graduation Year" 
                     name="grad_year" 
-                    style={{ display: "flex", margin: '0'}}
+                    style={formStyle}
                     // rules={[{ required: true, message: 'Please provide grad year' }]}
                 >
-                    <InputNumber style={{ width: '50%'}}/>
+                    <InputNumber style={{ width: '100%'}}/>
                 </Form.Item>
                 <Form.Item 
                     label="State" 
@@ -89,24 +111,28 @@ export default function Signup(props) {
                     style={formStyle}
                     // rules={[{ required: true, message: 'Please provide state' }]}
                 >
-                    <Select style={{ }}>
-                        <Select.Option value="CT">CT</Select.Option>
-                        <Select.Option value="GA">GA</Select.Option>
+                    <Select
+                        // showSearch
+                        onChange={onChange}
+                        placeholder="Select a State"
+                    >
+                        {states.map((state, index) => {
+                            console.log("state", state, "index", index)
+                            return <Option key={index} value={state}>{state}</Option>
+                        })}
                     </Select>
                 </Form.Item>
                 <Form.Item 
                     label="High School" 
                     name="highschool" 
-                    style={{ marginBottom: "2%"}}
+                    style={formStyle}
                     // rules={[{ required: true, message: 'Please provide high school' }]}
                 >
                     <Input style={{ width: "80%" }}/>
                 </Form.Item>
                 <Form.Item 
                     label="Height and Weight"
-                    style={{ 
-                        margin: "0",
-                    }}
+                    style={formStyle}
                     // rules={[{ required: true, message: 'Please provide height and weight' }]}
                 >
                     <Form.Item 
@@ -142,7 +168,7 @@ export default function Signup(props) {
                     </Form.Item>
                 </Form.Item>
                 <Form.Item 
-                    style={{ margin: "0%"}}
+                    style={formStyle}
                 >
                     <div style={{ width: '100%'}}>
                         <div style={{ display: 'flex', justifyContent: "space-between"}}>
@@ -158,22 +184,24 @@ export default function Signup(props) {
                 <Form.Item 
                     label="Film URL" 
                     name="hudl" 
+                    style={formStyle}
                     // rules={[{ required: true, message: 'Please provide your film URL' }]}
                 >
-                    <Input style={{ }}/>
+                    <Input />
                 </Form.Item>
                 <Form.Item 
                     label="Twitter" 
                     name="twitter" 
+                    style={formStyle}
                     // rules={[{ required: true, message: 'Need your twitter for the shoutout' }]}
                 >
                     <Input addonBefore={"@"}/>
                 </Form.Item>
-                <Form.Item label="GPA" name="gpa" >
-                    <Input style={{ }}/>
+                <Form.Item label="GPA" name="gpa" style={formStyle}>
+                    <Input />
                 </Form.Item>
                 <Form.Item >
-                    <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-start', fontWeight: 'bold' }}>
                         <label style={{ marginRight: '5%'}}>Camps?</label>
                         <Form.Item name="camps" valuePropName='checked'>
                             <Switch style={{ width: '20%'}}/>
@@ -183,12 +211,13 @@ export default function Signup(props) {
                 <Form.Item 
                     name="package" 
                     label="Type of Package"
+                    style={formStyle}
                     // rules={[{ required: true, message: 'Please select desired package.' }]}
                 >
                     <Radio.Group>
-                        <Radio value={0}>Standard <InfoCircleOutlined /></Radio>
-                        <Radio value={1}>Bronze <InfoCircleOutlined /></Radio>
-                        <Radio value={2}>Silver <InfoCircleOutlined /></Radio>
+                        <Radio value={0}>Free <InfoCircleOutlined /></Radio>
+                        <Radio value={1}>Standard <InfoCircleOutlined /></Radio>
+                        <Radio value={2}>Advanced <InfoCircleOutlined /></Radio>
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item >
@@ -198,6 +227,7 @@ export default function Signup(props) {
                     </div>
                 </Form.Item>
             </Form>
+            </div>
         </div>
     )
 }

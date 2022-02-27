@@ -1,8 +1,14 @@
 @import './Mixins';
 
-
 .welcome-div {
+    @include mobile(){
+        width: 100%;
+    }
+}
 
+.nbp-background {
+    width: 100%;
+    margin-top: 0%;
 }
 
 .packages {
@@ -17,15 +23,23 @@
     border-bottom: 1.2px solid gray;
     background: lightGray; 
     width: 100%;
+    color: black;
+}
+
+.ant-typography {
+    color: whitesmoke;
 }
 .package {
     @include mobile(){
         width: 80%;
         font-size: 1rem;
-        background-color: lightgray;
+        // background-color: lightgray;
         border: 2px inset black;
         margin: 2%;
-
+        background-color: black;
+        
+        // background-image: url("../Images/conner.jpg");
+        
     }
 }
 

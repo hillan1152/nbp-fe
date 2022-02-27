@@ -12,12 +12,13 @@ import Confirmation from './Components/Form/Confirmation';
 import Store, { Context } from './Components/State/Store';
 import Message from './Components/Navigation/Message.js'
 import Welcome from './Components/Welcome/Welcome.js'
-
+import Navigation from './Components/Navigation/Navigation';
 function App(props) {
 
   return (
     <Store>
-      <Message/>
+      {/* <Navigation/> */}
+      {/* <Message/> */}
       <Router>
         <div className="App">
           <Routes>

@@ -20,7 +20,7 @@ function App(props) {
 
   return (
     <Store>
-      {/* <Navigation/> */}
+      <Navigation/>
       {/* <Message/> */}
       <Router>
         <div className="App">

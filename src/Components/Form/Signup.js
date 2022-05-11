@@ -9,9 +9,10 @@ import { useNavigate } from 'react-router-dom';
 const { Option } = Select;
 export default function Signup(props) {
     const baseURL = "http://localhost:5000";
-    const [state, dispatch] = useContext(Context)
+    const [state, dispatch] = useContext(Context);
     const navigate = useNavigate();
-    
+    console.log("State", state)
+
     const onFinish = (values) => {
         if(values.ft !== undefined && values.in !== undefined && values.wt !== undefined){
             values.ft = parseFloat(values.ft);
@@ -45,7 +46,7 @@ export default function Signup(props) {
     return (
         <div className="sign-up">
             <div className="sign-up-content">
-            <h1>Next Big Prospect</h1>
+            <h1>Prospect Form</h1>
             <Form
                 labelCol={{
                     span: 4,
@@ -55,6 +56,25 @@ export default function Signup(props) {
                 }}
                 layout="horizontal"
                 onFinish={onFinish}
+                initialValues={{
+                    first_name: state.prospect.first_name ? state.prospect.first_name : '',
+                    camps: state.prospect.camps ? state.prospect.camps : '',
+                    email: state.prospect.email ? state.prospect.email : '',
+                    gpa: state.prospect.gpa ? state.prospect.gpa : '',
+                    grad_year: state.prospect.grad_year ? state.prospect.grad_year : '',
+                    highschool: state.prospect.highschool ? state.prospect.highschool : '',
+                    hudl: state.prospect.hudl ? state.prospect.hudl : '',
+                    last_name: state.prospect.last_name ? state.prospect.last_name : '',
+                    package: state.prospect.package ? state.prospect.package : '',
+                    primary_pos: state.prospect.primary_pos ? state.prospect.primary_pos : '',
+                    secondary_pos: state.prospect.secondary_pos ? state.prospect.secondary_pos : '',
+                    state: state.prospect.state ? state.prospect.state : '',
+                    twitter: state.prospect.twitter ? state.prospect.twitter : '',
+                    // Need to figure out how to replace values on ht & wt
+                    ft: state.prospect.ft ? state.prospect.ft : '',
+                    in: state.prospect.in ? state.prospect.in : '',
+                    wt: state.prospect.wt ? state.prospect.wt : '',
+                }}
                 
             >
                 <Form.Item 
@@ -85,6 +105,7 @@ export default function Signup(props) {
                     label="Password" 
                     name="password" 
                     style={formStyle}
+                    type="password"
                     // rules={[{ required: true, message: 'You need a password' }]}
                 >
                     <Input style={{ }}/>
@@ -109,7 +130,6 @@ export default function Signup(props) {
                         placeholder="Select a State"
                     >
                         {states.map((state, index) => {
-                            console.log("state", state, "index", index)
                             return <Option key={index} value={state}>{state}</Option>
                         })}
                     </Select>
@@ -213,7 +233,7 @@ export default function Signup(props) {
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item >
-                    <div style={{ display: "flex", justifyContent: 'space-evenly'}}>
+                    <div style={{ display: "flex", justifyContent: 'space-evenly', marginTop: '10%'}}>
                         <Button onClick={back}>Cancel</Button>
                         <Button type="primary" htmlType="submit">Continue</Button>
                     </div>

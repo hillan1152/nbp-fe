@@ -17,7 +17,7 @@ export default function Confirmation(props) {
     
 
     const back = () => {
-        dispatch({ type: 'CLEAR_PROSPECT_INFO', payload: "" });
+        // dispatch({ type: 'CLEAR_PROSPECT_INFO', payload: "" });
         navigate('/signup')
     };
     
